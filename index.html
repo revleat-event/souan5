@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>イベント（仮）| 出会い×スポーツ フットサルイベント</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/*145*/
+  :root{
+    --sky-deep:   #0A4F9E; 
+    --sky-main:   #1E8FE0; 
+    --sky-vivid:  #3FB6F0; 
+    --sky-light:  #E3F4FD; 
+    --sky-pale:   #F4FAFE; 
+    --coral:      #FF8961; 
+    --ink:        #14283D;
+    --muted:      #4D7396; 
+    --line:       #CBE6F7; 
+    --white:      #FFFFFF;
+
+    --font-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+    --font-body: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+
+    --radius: 18px;
+    --max-w: 1080px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation: none !important; transition: none !important; }
+  }
+
+  body{
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--sky-pale);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3{
+    font-family: var(--font-display);
+    color: var(--sky-deep);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  a{ color: inherit; }
+
+  .container{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section{ padding: 88px 0; }
+  @media (max-width: 640px){
+    section{ padding: 64px 0; }
+  }
+
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--sky-main);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 16px;
+    margin-bottom: 20px;
+  }
+  .eyebrow::before{
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--coral);
+    flex-shrink: 0;
+  }
+
+
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 251, 255, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  .logo{
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--sky-deep);
+    letter-spacing: 0.02em;
+  }
+  .logo span{ color: var(--sky-main); }
+  nav.site-nav{ display: flex; gap: 28px; }
+  nav.site-nav a{
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+  nav.site-nav a:hover{ color: var(--sky-main); }
+  .header-cta{
+    background: var(--sky-main);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 6px 16px rgba(46,144,229,0.28);
+  }
+  .header-cta:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px rgba(46,144,229,0.36); }
+  @media (max-width: 720px){
+    nav.site-nav{ display: none; }
+  }
+
+
+  .hero{
+    position: relative;
+    overflow: hidden;
+    background-image:
+      linear-gradient(180deg, rgba(10,40,80,0.45) 0%, rgba(10,79,158,0.55) 60%, rgba(10,40,80,0.7) 100%),
+      url('https://picsum.photos/seed/futsal/1400/800');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0 60px;
+    min-height: 500px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-bg{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-content{
+    position: relative;
+    z-index: 1;
+    text-align: left;
+    width: 100%;
+  }
+  .hero .eyebrow{
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .hero-big-text{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 0 20px;
+  }
+  .hero-big-text span{
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(64px, 14vw, 130px);
+    line-height: 1.05;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    display: block;
+  }
+  .big-left{  text-align: left; }
+  .big-center{ text-align: center; }
+  .big-right{ text-align: right; }
+  .big-center.date{ margin-top: 24px; }
+  .hero p.lead{
+    font-size: clamp(17px, 2.6vw, 22px);
+    color: rgba(255,255,255,0.88);
+    margin: 0 0 0;
+    text-shadow: 0 1px 4px rgba(10,40,80,0.5);
+    text-align: center;
+  }
+
+  .hero-meta-wrap{
+    background: var(--white);
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hero-meta-row{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: 100%;
+  }
+  .hero-meta-row .meta-chip{
+    flex: 1 1 0;
+  }
+  .meta-chip{
+    background: var(--sky-light);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--sky-deep);
+    text-align: left;
+    min-width: 0;
+  }
+  .meta-chip .label{
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .meta-chip .value{ font-weight: 700; font-size: 14px; }
+  .meta-chip .value.pending{ color: var(--coral); font-weight: 700; }
+
+  @media (max-width: 480px){
+    .hero-meta-row{ gap: 8px; }
+    .meta-chip{ padding: 10px 12px; }
+    .meta-chip .value{ font-size: 12px; }
+  }
+
+  .cta-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 15px 30px;
+    border-radius: 999px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary{
+    background: var(--coral);
+    color: var(--white);
+    box-shadow: 0 10px 24px rgba(255,137,97,0.35);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 14px 28px rgba(255,137,97,0.42); }
+  .btn-secondary{
+    background: var(--white);
+    color: var(--sky-deep);
+    border: 1px solid var(--line);
+  }
+  .btn-secondary:hover{ border-color: var(--sky-main); color: var(--sky-main); }
+
+
+  .section-head{
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto 52px;
+  }
+  .section-head h2{
+    font-size: clamp(24px, 3.6vw, 32px);
+    font-weight: 700;
+  }
+  .section-head p{ color: var(--muted); margin-top: 12px; font-size: 15.5px; }
+
+  .overview-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 640px){
+    .overview-grid{ grid-template-columns: 1fr; }
+  }
+  .overview-card{
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+  }
+  .overview-card .label{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sky-main);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .overview-card .value{ font-size: 16px; font-weight: 700; color: var(--sky-deep); }
+  .overview-card .sub{ font-size: 13.5px; color: var(--muted); margin-top: 4px; }
+
+  .concept-block{
+    margin-top: 40px;
+    background: linear-gradient(135deg, var(--sky-deep), var(--sky-main));
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    text-align: center;
+  }
+  .concept-block p{ font-size: 15.5px; color: #D9EEFB; max-width: 560px; margin: 0 auto; }
+  .concept-words{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .concept-words span{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(20px, 3vw, 26px);
+  }
+  .concept-words .x{ color: #FFE3A3; font-size: 18px; }
+
+
+  .highlight-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 880px){
+    .highlight-grid{ grid-template-columns: 1fr; }
+  }
+  .highlight-card{
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 30px 26px;
+    border: 1px solid var(--line);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .highlight-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(15,42,67,0.1);
+  }
+  .highlight-icon{
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: var(--sky-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+  }
+  .highlight-card h3{ font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .highlight-card p{ font-size: 14.5px; color: var(--muted); margin: 0; }
+
+
+  .pending-card{
+    border: 1.5px dashed #B9D9F2;
+    background: var(--sky-light);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    color: var(--sky-deep);
+  }
+  .pending-card .pending-icon{
+    width: 40px; height: 40px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pending-card strong{ display: block; font-size: 15.5px; margin-bottom: 6px; }
+  .pending-card span{ font-size: 13.5px; color: var(--muted); }
+
+  .info-list{
+    display: grid;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .info-row{
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 18px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 22px;
+    align-items: start;
+  }
+  @media (max-width: 600px){
+    .info-row{ grid-template-columns: 1fr; gap: 6px; }
+  }
+  .info-row .key{ font-weight: 700; color: var(--sky-deep); font-size: 14px; }
+  .info-row .val{ font-size: 14.5px; color: var(--ink); }
+  .info-row .val.tbd{ color: var(--coral); font-weight: 600; }
+
+
+  .venue-wrap{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  @media (max-width: 760px){
+    .venue-wrap{ grid-template-columns: 1fr; }
+  }
+  .venue-map-placeholder{
+    border-radius: var(--radius);
+    background: repeating-linear-gradient(45deg, #EAF6FF, #EAF6FF 10px, #DDF0FF 10px, #DDF0FF 20px);
+    border: 1px solid var(--line);
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sky-main);
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+  .venue-detail{
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 30px;
+  }
+  .venue-detail h3{ font-size: 18px; margin-bottom: 16px; }
+  .venue-detail ul{ list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .venue-detail li{ font-size: 14.5px; color: var(--muted); }
+  .venue-detail li b{ color: var(--ink); font-weight: 700; }
+
+
+  .faq-item{
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+  }
+  .faq-item:first-child{ border-top: 1px solid var(--line); }
+  .faq-q{ display: flex; gap: 12px; font-weight: 700; color: var(--sky-deep); font-size: 15.5px; }
+  .faq-q::before{ content: 'Q'; color: var(--coral); font-family: var(--font-display); }
+  .faq-a{ display: flex; gap: 12px; margin-top: 10px; color: var(--muted); font-size: 14.5px; }
+  .faq-a::before{ content: 'A'; color: var(--sky-main); font-family: var(--font-display); font-weight: 700; flex-shrink: 0; }
+
+
+  .contact-block{
+    background: linear-gradient(135deg, var(--sky-deep), var(--sky-vivid));
+    border-radius: 24px;
+    padding: 56px 40px;
+    text-align: center;
+    color: var(--white);
+  }
+  .contact-block h2{ color: var(--white); font-size: clamp(22px, 3.4vw, 30px); margin-bottom: 14px; }
+  .contact-block p{ color: #DCEEFE; margin-bottom: 30px; font-size: 15px; }
+  .contact-block .cta-row .btn-secondary{
+    background: var(--white);
+    color: var(--sky-main);
+    border: none;
+  }
+  .contact-block .btn-primary{ background: var(--coral); }
+  .contact-email{
+    margin-top: 22px;
+    font-size: 14px;
+    color: #DCEEFE;
+  }
+  .contact-email a{ text-decoration: underline; color: var(--white); }
+
+
+  footer{
+    background: var(--sky-deep);
+    color: #9FC0DA;
+    padding: 40px 0 28px;
+    font-size: 13px;
+  }
+  .footer-inner{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+  }
+  footer .footer-note{ margin-top: 18px; color: #6E91AD; line-height: 1.7; }
+
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.is-visible{ opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span>イベント</span>（仮）</div>
+    <nav class="site-nav">
+      <a href="#about">概要</a>
+      <a href="#highlights">見どころ</a>
+      <a href="#schedule">スケジュール</a>
+      <a href="#venue">会場</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
+    <a class="header-cta" href="#contact">申し込む</a>
+  </div>
+</header>
+
+
+<section class="hero">
+
+  <div class="hero-bg" aria-hidden="true">
+    <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0;">
+      <g stroke="#FFFFFF" stroke-width="3" fill="none" opacity="0.12">
+        <circle cx="600" cy="430" r="90"/>
+        <line x1="600" y1="340" x2="600" y2="520"/>
+        <rect x="80" y="360" width="120" height="140"/>
+        <rect x="1000" y="360" width="120" height="140"/>
+        <rect x="0" y="300" width="1200" height="260" rx="2"/>
+      </g>
+    </svg>
+  </div>
+  <div class="container hero-content">
+    <div class="hero-big-text">
+      <span class="big-left">出会い</span>
+      <span class="big-center">×</span>
+      <span class="big-right">スポーツ</span>
+      <span class="big-center date">10月</span>
+    </div>
+    <p class="lead">フットサルで体を動かしながら、新しい出会いを。<br>経験不問・初心者歓迎の交流型スポーツイベントです。</p>
+  </div>
+</section>
+
+<div class="hero-meta-wrap">
+  <div class="container">
+    <div class="hero-meta">
+      <div class="hero-meta-row">
+        <div class="meta-chip">
+          <span class="label">開催日時</span>
+          <span class="value pending">2026年10月（日程調整中）</span>
+        </div>
+        <div class="meta-chip">
+          <span class="label">開催地</span>
+          <span class="value pending">しんよこフットボールパーク</span>
+        </div>
+      </div>
+      <div class="hero-meta-row">
+        <div class="meta-chip">
+          <span class="label">種目</span>
+          <span class="value">個人フットサル</span>
+        </div>
+        <div class="meta-chip">
+          <span class="label">対象</span>
+          <span class="value">18〜22歳（大学生・専門学校生）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">ABOUT</span>
+      <h2>イベント概要</h2>
+      <p>初めての方でも安心して参加できる、フットサルの交流イベントです。</p>
+    </div>
+
+    <div class="overview-grid reveal">
+      <div class="overview-card">
+        <div class="label">種目</div>
+        <div class="value">フットサル</div>
+        <div class="sub">経験不問・初心者向け</div>
+      </div>
+      <div class="overview-card">
+        <div class="label">対象者</div>
+        <div class="value">18〜22歳</div>
+        <div class="sub">大学生・専門学校生を中心に募集</div>
+      </div>
+      <div class="overview-card">
+        <div class="label">開催日時</div>
+        <div class="value">2026年11月</div>
+        <div class="sub">詳細日程は調整中です</div>
+      </div>
+      <div class="overview-card">
+        <div class="label">開催地</div>
+        <div class="value">仮パーク</div>
+        <div class="sub">会場名・アクセスは確定後に公開</div>
+      </div>
+    </div>
+
+    <div class="concept-block reveal">
+      <div class="concept-words">
+        <span>出会い</span><span class="x">×</span><span>スポーツ</span>
+      </div>
+      <p>「スポーツを通じて新しい出会いを」をテーマに、初心者でも気軽に体を動かせる場をつくります。フットサル経験の有無は問いません。体を動かすきっかけを探している方をお待ちしています。</p>
+    </div>
+  </div>
+</section>
+
+
+<section id="highlights" style="background: var(--sky-light);">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">HIGHLIGHTS</span>
+      <h2>このイベントの魅力</h2>
+    </div>
+
+    <div class="highlight-grid reveal">
+      <div class="highlight-card">
+        <div class="highlight-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="3.2" stroke="#1E8FE0" stroke-width="1.8"/><circle cx="16" cy="9" r="3.2" stroke="#0A4F9E" stroke-width="1.8"/><path d="M3 19c0-2.8 2.2-5 5-5s5 2.2 5 5M11 19c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#1E8FE0" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>出会い×スポーツ</h3>
+        <p>同世代の学生同士、フットサルを通じて自然に交流が生まれる場です。</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3v6m0 0L8 6m4 3l4-3" stroke="#1E8FE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15" r="6" stroke="#0A4F9E" stroke-width="1.8"/></svg>
+        </div>
+        <h3>初心者歓迎</h3>
+        <p>フットサル未経験でも参加OK。ルールが分からなくても気軽に楽しめます。</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12h4l2-6 4 12 2-6h4" stroke="#1E8FE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>体を動かすきっかけに</h3>
+        <p>普段運動しない方も、軽く体を動かすちょうどいい機会になります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="schedule">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">SCHEDULE</span>
+      <h2>当日のスケジュール</h2>
+    </div>
+    <div class="pending-card reveal">
+      <div class="pending-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#2E90E5" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="#2E90E5" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <strong>スケジュールは現在調整中です</strong>
+      <span>確定次第、このページで公開します。</span>
+    </div>
+  </div>
+</section>
+
+
+<section style="background: var(--sky-light);">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">JOIN US</span>
+      <h2>参加にあたって</h2>
+    </div>
+
+    <div class="info-list reveal">
+      <div class="info-row">
+        <div class="key">持ち物</div>
+        <div class="val tbd">準備中（確定後に記載します）</div>
+      </div>
+      <div class="info-row">
+        <div class="key">注意事項</div>
+        <div class="val tbd">準備中（確定後に記載します）</div>
+      </div>
+      <div class="info-row">
+        <div class="key">参加方法</div>
+        <div class="val tbd">下記の申し込みフォーム（Googleフォーム）よりお申し込みください。</div>
+      </div>
+      <div class="info-row">
+        <div class="key">参加費</div>
+        <div class="val tbd">1000円</div>
+      </div>
+      <div class="info-row">
+        <div class="key">募集人数</div>
+        <div class="val tbd">最大30名<br>(審判のボランティア3名)</div>
+      </div>
+      <div class="info-row">
+        <div class="key">キャンセルポリシー</div>
+        <div class="val tbd">準備中（確定後に記載します）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="venue">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">VENUE</span>
+      <h2>会場・アクセス</h2>
+    </div>
+    <div class="venue-wrap reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3247.865277202142!2d139.60533537532746!3d35.50760937264372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018592af41edb37%3A0xf8c78cf34d29cd44!2z44GX44KT44KI44GT44OV44OD44OI44Oc44O844Or44OR44O844Kv!5e0!3m2!1sja!2sjp!4v1783848369594!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="venue-detail">
+        <h3>しんよこフットボールパーク</h3>
+        <ul>
+          <li><b>住所</b>：〒222-0036, 神奈川県横浜市港北区, 小机町3300</li>
+          <li><b>アクセス</b>：確定後に記載</li>
+          <li><b>更衣室・ロッカー</b>：確定後に記載</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="faq" style="background: var(--sky-light);">
+  <div class="container" style="max-width: 760px;">
+    <div class="section-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>よくある質問</h2>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <div class="faq-q">フットサル未経験でも参加できますか？</div>
+        <div class="faq-a">はい、初心者でも楽しめるイベントです。経験の有無は問いません。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">参加できる年齢・対象者は決まっていますか？</div>
+        <div class="faq-a">18〜22歳の大学生・専門学校生を対象としています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">一人でも参加できますか？</div>
+        <div class="faq-a">もちろんです。お一人でも友人と一緒でも大歓迎です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">雨天の場合はどうなりますか？</div>
+        <div class="faq-a">天候状況を考慮し、中止または延期となる場合があります。開催可否は前日または当日にSNS・メールでお知らせします。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">キャンセルできますか？</div>
+        <div class="faq-a">イベント前日までにキャンセルの連絡をよろしくお願いいたします。当日キャンセルになると参加費(1000円)のお支払いが発生します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">ケガをした場合はどうなりますか？</div>
+        <div class="faq-a">応急処置を行い、必要に応じて救急機関へ連絡します。参加前に体調をご確認いただき、イベント中はスタッフの指示に従ってください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">写真や動画は撮影されますか？</div>
+        <div class="faq-a">イベントの様子を撮影し、SNSやWebサイトで使用する場合があります。掲載を希望されない場合は、受付時にスタッフへお知らせください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">駐車場・駐輪場はありますか？</div>
+        <div class="faq-a">新横浜公園の駐車場・駐輪場をご利用ください。※大規模イベント日や日産スタジアムの試合の日には利用制限がかかることがあります。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-block reveal">
+      <h2>参加・お問い合わせ</h2>
+      <p>申し込み・ご質問は、以下のフォームまたはメールにて承っています。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdmrG_TgIMqyFFF-bMhy7jVR-snHAFX2R679jrS6A9MdSbpPA/viewform?usp=header" target="_blank" rel="noopener">Googleフォームで申し込む</a>
+        <a class="btn btn-secondary" href="mailto:revleat.event@gmail.com">メールで問い合わせる</a>
+      </div>
+      <div class="contact-email">
+        メール：<a href="mailto:revleat.event@gmail.com">revleat.event@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="container footer-inner">
+    <div>イベント（仮） / 出会い×スポーツ フットサルイベント</div>
+    <div>&copy; 2026 REVLEAT</div>
+  </div>
+  <div class="container footer-note">
+    本ページは草案5です。日程・会場・参加費・持ち物等の情報は確定後に更新されます。
+  </div>
+</footer>
+
+<script>
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if (prefersReducedMotion) {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  } else if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
